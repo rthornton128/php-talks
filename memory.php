@@ -49,6 +49,19 @@ function pass_by_reference(array &$arr) {
   return $arr;
 }
 
-echo join(" ", pass_by_value([1,2,3])) . PHP_EOL;
-$arr = [1,2,3];
-echo join(" ", pass_by_reference($arr)) . PHP_EOL;
+function create_array($sz) {
+  $arr = [];
+  for ($i = 0; $i < $sz; ++$i) {
+    $arr[] = $i;
+  }
+  return $arr;
+}
+
+function bench(callable $f) {
+  for ($i = 0; $i < 10000; ++$i) {
+    $f(create_array(10000));
+  }
+}
+
+bench('pass_by_value');
+bench('pass_by_reference');
